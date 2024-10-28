@@ -5,12 +5,34 @@ app = FastAPI()
 
 hotels = [
    {"id": 1, "title": "Sochi", "name": "sochi"},
-   {"id": 2, "title": "Дубай", "name": "dubai"}
+   {"id": 2, "title": "Дубай", "name": "dubai"},
+    {"id": 3, "title": "Мальдивы", "name": "maldivu"},
+   {"id": 4, "title": "Геленджик", "name": "gelendgik"},
+   {"id": 5, "title": "Москва", "name": "moscow"},
+   {"id": 6, "title": "Владимир", "name": "vladimir"},
+   {"id": 7, "title": "Санкт-петербург", "name": "spb"},   
 ]
 
 @app.get("/hotels")
-def get_hotels():
-   return hotels
+def get_hotels(
+      id: int |None = Query( None, descriptions = "Айдишник"),
+      title: str | None = Query( None, description = "Название отеля"),
+      page: int |None = Query( None, descriptions = "Номер страницы"),
+      per_page: int|None = Query( None, descriptions = "Размер страницы"),
+      
+):
+      hotels_ = []
+      for hotel in hotels:
+         if id and hotel["id"] != id:
+            continue
+         if title and hotel["title"]:
+            continue
+         hotels_.append(hotel)
+         
+         start = (per_page - 1)*page
+         end = start + per_page
+         
+      return hotels_[start:end]
 
 @app.delete("/hotels/{hotel_id}")
 def delete_hotel(hotel_id: int):
