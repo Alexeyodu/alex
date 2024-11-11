@@ -26,9 +26,10 @@ async def get_hotels(
             limit=per_page,                                                        
             offset=per_page * (pagination.page - 1))    
     
-               
-      # if pagination.page and pagination.per_page:
-      #   return hotels_[pagination.per_page * (pagination.page-1):][:pagination.per_page]
+@router.get("/{hotels_id}")
+async def get_hotel(hotel_id: int):
+   async with async_session_maker() as session:
+       await HotelsRepository(session).get_one_or_none(id = hotel_id)
      
    
               
