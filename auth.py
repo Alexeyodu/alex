@@ -1,4 +1,4 @@
-@router.logout("/logout")
+@router.post("/logout")
 async def logout(
       response: Response,   
 ):
